@@ -1,0 +1,5 @@
+1. Matiching window with deep learning (window caputre/ screen caputre)
+2. laser light
+3. tranparent color film
+4. pixle screen capture and webcam caputre
+5. Morphological Operations to improve accuracy

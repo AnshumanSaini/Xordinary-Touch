@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct 29 00:42:19 2021
+
+@author: HIMANSHU
+"""
+
+import cv2
+import numpy as np
+
+def CallBackFunc(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        circles.append((x, y))
+        arr.append((x,y))
+        
+cap = cv2.VideoCapture(0)
+cv2.namedWindow("Frame")
+cv2.setMouseCallback("Frame", CallBackFunc)
+circles = []
+arr=[]
+while (True):
+    _, frame = cap.read()
+    for center_position in circles:
+        #if len(circles)<4:    
+        cv2.circle(frame, center_position, 5, (0, 0, 255), -1)
+    if(len(arr)==4):
+        pts1 = np.float32([arr[0], arr[1],arr[2],arr[3]])
+        pts2 = np.float32([[0, 0], [1920, 0], [0, 1080], [1920, 1080]])
+        matrix = cv2.getPerspectiveTransform(pts1, pts2)
+        result = cv2.warpPerspective(frame, matrix, (1920, 1080))
+        
+        cv2.imshow("Perspective transformation", result)
+    cv2.imshow("Frame", frame)
+    key = cv2.waitKey(1)
+    if key == 27:
+        break
+cap.release()
+cv2.destroyAllWindows()
